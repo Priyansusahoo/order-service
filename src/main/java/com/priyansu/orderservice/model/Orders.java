@@ -12,10 +12,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "t_orders")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

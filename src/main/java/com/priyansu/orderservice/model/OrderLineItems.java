@@ -12,10 +12,10 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "t_order_line_items")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderLineItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
