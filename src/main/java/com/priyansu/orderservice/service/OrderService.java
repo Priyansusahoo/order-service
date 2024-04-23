@@ -19,24 +19,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderService implements IOrderService{
+
     private final OrdersRepository ordersRepository;
 
     public ResponseEntity<Boolean> placeOrder(OrderRequestDto orderRequest){
         try {
-            Orders orders = new Orders();
-            orders.setOrderNumber(UUID.randomUUID().toString());
+            if (!orderRequest.getOrderLineItemsDtoList().isEmpty()) {
+                Orders orders = new Orders();
+                orders.setOrderNumber(UUID.randomUUID().toString());
 
-            List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList()
-                    .stream()
-                    .map(this::mapLineItemsToDto)
-                    .toList();
+                List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList()
+                        .stream()
+                        .map(this::mapLineItemsToDto)
+                        .toList();
 
-            orders.setOrderLineItemsList(orderLineItemsList);
-            ordersRepository.save(orders);
-            log.info("Order with ORDER-ID : {} and ORDER-NUMBER : {} placed successfully", orders.getId(), orders.getOrderNumber());
-            return ResponseEntity.ok(Boolean.TRUE);
+                orders.setOrderLineItemsList(orderLineItemsList);
+                ordersRepository.save(orders);
+                log.info("Order with ORDER-ID : {} and ORDER-NUMBER : {} placed successfully", orders.getId(), orders.getOrderNumber());
+                return ResponseEntity.ok(Boolean.TRUE);
+            }
+            log.error("**********ERROR********** " + " orderLineItemsDtoList is empty");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Boolean.FALSE);
         } catch (Exception e) {
-            log.error("**********ERROR********** ", e.getMessage());
+            log.error("**********ERROR IN EXCEPTION ********** " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Boolean.FALSE);
         }
     }
