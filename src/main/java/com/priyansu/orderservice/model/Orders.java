@@ -14,18 +14,14 @@ import java.util.List;
  */
 @Entity
 @Table(name = "t_orders")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
     private Long id;
-    @JsonProperty("orderNumber")
     private String orderNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderLineItems> orderLineItemsList;
 }

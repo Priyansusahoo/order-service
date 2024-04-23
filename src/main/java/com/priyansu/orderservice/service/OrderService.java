@@ -33,9 +33,10 @@ public class OrderService implements IOrderService{
 
             orders.setOrderLineItemsList(orderLineItemsList);
             ordersRepository.save(orders);
+            log.info("Order with ORDER-ID : {} and ORDER-NUMBER : {} placed successfully", orders.getId(), orders.getOrderNumber());
             return ResponseEntity.ok(Boolean.TRUE);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("**********ERROR********** ", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Boolean.FALSE);
         }
     }

@@ -12,8 +12,7 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "t_order_line_items")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderLineItems {
